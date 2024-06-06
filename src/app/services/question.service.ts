@@ -11,8 +11,7 @@ export class QuestionService {
 
   constructor(private http: HttpClient) { }
 
-  getQuestion(): Observable<any> {   
+  getQuestion(): Observable<Question> {   
     return this.http.get<Question>(environment.apiUrl);
   }
-
 }
