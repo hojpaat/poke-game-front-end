@@ -1,0 +1,12 @@
+.error-container {
+    min-height: 400px;
+    background-color: rgba($color: #ffffff, $alpha: 0.5);
+    backface-visibility: var(-50%);
+    border-radius: 70px;
+    border: solid 2px #920000;
+    
+    .message {
+        padding: 150px;
+        font-size: 50px;
+    }
+}
