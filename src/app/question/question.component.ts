@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { QuestionService } from '../services/question.service';
 import { Question } from '../models/question.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-question',
@@ -18,8 +19,7 @@ export class QuestionComponent {
   ngOnInit() {
     this.questionService.getQuestion()
     .subscribe(res => {
-      Object.assign(this.currentQuestion, res);
-      console.log(this.currentQuestion.correctAnswer)     
+      Object.assign(this.currentQuestion, res);     
     });
   }
 
@@ -29,20 +29,27 @@ export class QuestionComponent {
 
   checkAnswer(ev: Event) {
     let currentElement = (ev.target as HTMLElement);
-    currentElement.classList.add("selected");
     this.currentAnswer = currentElement.getAttribute("data-value")!;
     this.isCurrentCorrect = this.isAnswerCorrect(this.currentAnswer);
-    // if (this.isCurrentCorrect)
     this.isResult = true;
   }
 
   nextQuestion() {
+    // reset to default
+    this.currentAnswer = "";
     this.isResult = false;
+    // getting new question
     this.questionService.getQuestion()
-    .subscribe(res => {
+    .subscribe( {next: (res: Response) => {
       Object.assign(this.currentQuestion, res);
-      console.log(this.currentQuestion.correctAnswer)     
-    });
-  }
+    console.log(this.currentQuestion);
+    },
+    error: (err: HttpErrorResponse) => {
+      console.log(err.error);
+      this.currentQuestion = new Question();
+    }
+    
+  });
+}
 
 }
