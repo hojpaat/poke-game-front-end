@@ -1,0 +1,17 @@
+<div class="questions" [ngClass]="isResult ? 'result' : 'quiz'">
+    <div class="pokeImage">
+        <img  [src]="currentQuestion.pokemonImage" alt="">
+    </div>
+    <div class="question-container">
+        <button *ngFor="let answer of currentQuestion.answers" type="button" class="btn btn-outline-danger"
+        [ngClass]="{'correct': answer == currentQuestion.correctAnswer}"
+        [attr.disabled]="isResult ? true : null"
+        [attr.data-value]="answer"
+        (click)="checkAnswer($event)">
+        {{ answer }}
+        </button>
+    </div>
+    <div [ngClass]="{'hidden': !isResult}">
+        <button class="btn btn-outline-danger" (click)="nextQuestion()">Next Question</button>
+    </div>
+</div>
